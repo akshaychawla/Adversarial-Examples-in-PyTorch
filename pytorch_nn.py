@@ -27,7 +27,7 @@ class Net(nn.Module):
 net = Net()
 print(net)
 SoftmaxWithXent = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-04)
 
 
 # DATA LOADERS 
@@ -43,12 +43,12 @@ testdata  = torchvision.datasets.MNIST(root="./mnist", train=False, download=Tru
 testloader = torch.utils.data.DataLoader(testdata, batch_size=256, shuffle=True, num_workers=2)
 
 # TRAIN 
-for epoch in range(10):
+for epoch in range(100):
 
     print("Epoch: {}".format(epoch))
     running_loss = 0.0 
     # import ipdb; ipdb.set_trace()
-    for i, data in tqdm(enumerate(trainloader, 0)):
+    for data in tqdm(trainloader):
         
         # get the inputs 
         inputs, labels = data 
