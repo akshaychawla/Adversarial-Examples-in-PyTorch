@@ -32,7 +32,11 @@ for matidx, idx in enumerate(idxs):
     plt.imshow(disp_im, "gray")
 plt.show()
     
-    
+import ipdb; ipdb.set_trace()
 # Noise statistics 
-r_clean = np.array(r_clean)
+r_clean, x_clean, y_true_clean, y_pred_clean = np.array(r_clean), np.array(x_clean), np.array(y_true_clean), np.array(y_pred_clean)
+r_clean = np.squeeze(r_clean, axis=1)
+adv_exs = x_clean + r_clean 
+print "Adv examples: max, min: ", adv_exs.max(), adv_exs.min()
+print "Noise: Mean, Max, Min: "
 print np.mean(r_clean), np.max(r_clean), np.min(r_clean)
