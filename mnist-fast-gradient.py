@@ -66,7 +66,7 @@ print "Epsilon:", epsilon
 x_old = x.data
 x_g   = torch.sign(x.grad.data)
 # import ipdb; ipdb.set_trace()
-adv_example = x_old + epsilon * x_g 
+adv_example = torch.clamp(x_old + epsilon * x_g, 0, 1) 
 
 # Check classification
 orig = net.classify(x)
