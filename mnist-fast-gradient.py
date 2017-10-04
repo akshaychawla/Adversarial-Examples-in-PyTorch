@@ -49,7 +49,7 @@ print "Weights Loaded!"
 # Example 6 
 with open("example_6.trch","r") as f: 
     x = torch.load(f) # load "6"
-y = torch.LongTensor(np.array([3])) # target label : 2
+y = torch.LongTensor(np.array([6])) # target label : 2
 
 # Wrap x as a variable 
 x = Variable(x, requires_grad=True)
