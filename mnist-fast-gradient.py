@@ -46,31 +46,55 @@ for param in net.named_parameters():
         param[1].data = weights_dict[param[0]].data 
 print "Weights Loaded!"
 
-# Example 6 
-with open("example_6.trch","r") as f: 
-    x = torch.load(f) # load "6"
-y = torch.LongTensor(np.array([6])) # target label : 2
-
-# Wrap x as a variable 
-x = Variable(x, requires_grad=True)
-y = Variable(y, requires_grad=False)
-
-# run forward pass 
-outputs = net(x)
-loss = SoftmaxWithXent(outputs, y)
-loss.backward() # obtain gradients on x
-
-# Add perturbation
-epsilon = 0.25 
-print "Epsilon:", epsilon
-x_old = x.data
-x_g   = torch.sign(x.grad.data)
+# Load 5K samples 
+with open("5k_samples.pkl","r") as f: 
+    samples_5k = pickle.load(f) 
 # import ipdb; ipdb.set_trace()
-adv_example = torch.clamp(x_old + epsilon * x_g, 0, 1) 
+images = samples_5k["images"]
+labels = samples_5k["labels"]
+noise = [] 
+y_preds = []
+adversarial_class = [] 
 
-# Check classification
-orig = net.classify(x)
-new  = net.classify(Variable(adv_example))
-print "Orig: {} , New: {}".format(orig, new)
-
+for _x, _y_true in tqdm(zip(images, labels)):
     
+    # import ipdb; ipdb.set_trace()
+    # Wrap x as a variable 
+    x = Variable(torch.FloatTensor(_x.reshape(1,784)),     requires_grad=True)
+    y = Variable(torch.LongTensor(np.array([_y_true])), requires_grad=False)
+    
+    # Classification before Adv 
+    y_pred =  np.argmax(net(x).data.numpy())
+    y_preds.append(y_pred)
+    
+    print "Y_TRUE: {} | Y_PRED: {}".format(_y_true, y_pred)
+    if _y_true != y_pred:
+        print "WARNING: IMAGE WAS NOT CLASSIFIED CORRECTLY"
+
+    # Generate Adversarial Image 
+    # Forward pass
+    outputs = net(x)
+    loss = SoftmaxWithXent(outputs, y)
+    loss.backward() # obtain gradients on x
+
+    # Add perturbation
+    epsilon = 0.1 
+    x_g   = torch.sign(x.grad.data)
+    adv_example = torch.clamp(x.data + epsilon * x_g, 0, 1) 
+
+    # save adv_image  
+    noise.append((adv_example - x.data).numpy())
+    print "After Optimization Image is classified as: "
+    print np.argmax(net(Variable(adv_example)).data.numpy())
+    adversarial_class.append(np.argmax(net(Variable(adv_example)).data.numpy()))
+
+
+with open("adv_results_fgsd.pkl","w") as f: 
+    adv_data_dict = {
+            "x" : images, 
+            "y_true" : labels,
+            "y_pred" : y_preds,
+            "r" : noise,
+            "adversarial_class" : adversarial_class
+            }    
+    pickle.dump(adv_data_dict, f)
