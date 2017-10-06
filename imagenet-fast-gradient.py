@@ -56,9 +56,9 @@ for _imloc in image_location_generator("./downloads/"):
     loss.backward()
 
     # Add perturbation 
-    epsilon = 0.1
+    epsilon = 0.02
     x_g     = torch.sign(x.grad.data)
-    adv_x   = torch.clamp(x.data + epsilon*x_g, 0, 255) 
+    adv_x   = x.data + epsilon*x_g  # we do not know the min/max because of torch's own stuff
 
     # Check classification 
     adversarial_class.append(ImageNet_mapping[str(np.argmax(vgg16.forward(Variable(adv_x)).data.numpy()))])
@@ -68,13 +68,13 @@ for _imloc in image_location_generator("./downloads/"):
     print y_preds[-1], " | ", adversarial_class[-1]
 
 with open("adv_results_imagenet_fgsm.pkl", "w") as f: 
-   adv_data_dict = {
-           'x' : images, 
-           'y_true': labels, 
-           'y_pred': y_preds,
-           'r': noise,
-           'adversarial_class': adversarial_class 
-           }
+    adv_data_dict = {
+       'x' : images, 
+       'y_true': labels, 
+       'y_pred': y_preds,
+       'r': noise,
+       'adversarial_class': adversarial_class 
+    }
     pickle.dump(adv_data_dict, f)
 
 
