@@ -12,7 +12,7 @@ from tqdm import *
 import torchvision.models 
 import pickle
 
-with open("./labels.json","r") as f: 
+with open("../common/labels.json","r") as f: 
     import json 
     ImageNet_mapping = json.loads(f.read())
 
@@ -43,37 +43,45 @@ vgg16.eval() # disable dropout, batchnorm
 SoftmaxWithXent = nn.CrossEntropyLoss()
 print ".. loaded pre-trained vgg16"
 
-images, labels, y_preds, noise, adversarial_class = [], [], [], [], []
-for _imloc in image_location_generator("./downloads/"):
+xs, y_trues, y_preds, noises, y_preds_adversarial = [], [], [], [], []
+
+for imloc in tqdm(image_location_generator("./downloads/")):
     
-    x = Variable(image_loader(_imloc), requires_grad=True)
-    images.append(x.data.numpy())
+    x = Variable(image_loader(imloc), requires_grad=True)
     output = vgg16.forward(x)
-    y_preds.append(ImageNet_mapping[str(output.data.numpy().argmax())])
-    labels.append(ImageNet_mapping[str(output.data.numpy().argmax())])
     y = Variable(torch.LongTensor(np.array([output.data.numpy().argmax()])), requires_grad = False)
     loss = SoftmaxWithXent(output, y)
     loss.backward()
 
     # Add perturbation 
     epsilon = 0.02
-    x_g     = torch.sign(x.grad.data)
-    adv_x   = x.data + epsilon*x_g  # we do not know the min/max because of torch's own stuff
+    x_grad     = torch.sign(x.grad.data)
+    adv_x   = x.data + epsilon*x_grad  # we do not know the min/max because of torch's own stuff
 
-    # Check classification 
-    adversarial_class.append(ImageNet_mapping[str(np.argmax(vgg16.forward(Variable(adv_x)).data.numpy()))])
-    noise.append((adv_x - x.data).numpy())
+    # Check adversarilized output 
+    y_pred_adversarial = ImageNet_mapping[ str(np.argmax(vgg16.forward(Variable(adv_x)).data.numpy())) ]
+    y_true = ImageNet_mapping[ str( int( y.data.numpy() ) ) ]
 
-    # Display 
-    print y_preds[-1], " | ", adversarial_class[-1]
+    if y_pred_adversarial == y_true:
+        print "Error: Could not adversarialize image "
+    else:
+        xs.append(x.data.numpy())
+        y_preds.append( y_true )
+        y_trues.append( y_true )
+        noises.append((adv_x - x.data).numpy())
+        y_preds_adversarial.append( y_pred_adversarial )
 
-with open("adv_results_imagenet_fgsm.pkl", "w") as f: 
+        # Display 
+        # print y_preds[-1], " | ", y_preds_adversarial[-1]
+
+import ipdb; ipdb.set_trace()
+with open("bulk_imnet_fgsm.pkl", "w") as f: 
     adv_data_dict = {
-       'x' : images, 
-       'y_true': labels, 
-       'y_pred': y_preds,
-       'r': noise,
-       'adversarial_class': adversarial_class 
+       'xs' : xs, 
+       'y_trues': y_trues, 
+       'y_preds': y_preds,
+       'noises': noises,
+       'y_preds_adversarial': y_preds_adversarial
     }
     pickle.dump(adv_data_dict, f)
 
