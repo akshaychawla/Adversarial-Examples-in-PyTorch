@@ -62,4 +62,5 @@ In [2] the authors propose an easier method to generate adversarial examples kno
 ## References 
 
 [1] Intriguing properties of neural networks. Szegedy et al. 2014. [arXiv paper](https://arxiv.org/abs/1312.6199)
+
 [2] Explaining and Harnessing Adversarial Examples. IJ Goodfellow et al. [arXiv paper](https://arxiv.org/abs/1412.6572) 
