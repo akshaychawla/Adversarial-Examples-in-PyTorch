@@ -33,7 +33,7 @@ This method is based on the paper "Intriguing properties of neural networks" by 
 In the paper, the author use an L-BFGS optimizer to solve:
 
 ```
-    minimize ||r||^2, subject to
+    minimize ||r||_2, subject to
     1. f(x+r) = l
     2. x + r in [0,1] 
     where l = target class
