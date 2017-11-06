@@ -14,7 +14,7 @@ noises  = adv_data_dict["noises"]
 y_preds_adversarial = adv_data_dict["y_preds_adversarial"]  
 
 
-import ipdb; ipdb.set_trace()
+# import ipdb; ipdb.set_trace()
 # visualize N random images 
 idxs = np.random.choice(range(50), size=(20,), replace=False)
 for matidx, idx in enumerate(idxs):
@@ -23,10 +23,12 @@ for matidx, idx in enumerate(idxs):
     disp_im = np.concatenate((orig_im, adv_im), axis=1)
     plt.subplot(5,4,matidx+1)
     plt.imshow(disp_im, "gray")
+    plt.xticks([])
+    plt.yticks([])
 plt.show()
     
 # Noise statistics 
-import ipdb; ipdb.set_trace()
+# import ipdb; ipdb.set_trace()
 noises, xs, y_trues, y_preds = np.array(noises), np.array(xs), np.array(y_trues), np.array(y_preds)
 noises = noises.squeeze(axis=1)
 xs = xs.squeeze(axis=1)
