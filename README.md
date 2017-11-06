@@ -102,6 +102,6 @@ Mean, Max, Min noise: 0.0373817, 0.1, -0.1
 
 ## References 
 
-[1] Intriguing properties of neural networks. Szegedy et al. 2014. [arXiv paper](https://arxiv.org/abs/1312.6199)
+[1] Intriguing properties of neural networks. Szegedy et al. (ICLR 2014). [paper](https://arxiv.org/abs/1312.6199)
 
-[2] Explaining and Harnessing Adversarial Examples. IJ Goodfellow et al. [arXiv paper](https://arxiv.org/abs/1412.6572) 
+[2] Explaining and Harnessing Adversarial Examples. IJ Goodfellow et al. (ICLR 2015) [paper](https://arxiv.org/abs/1412.6572) 
