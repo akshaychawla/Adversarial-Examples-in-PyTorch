@@ -71,6 +71,27 @@ Mean, Max, Min noise: 0.0373817, 0.1, -0.1
 ![](images/mnist_fgsm.png)
 ![](images/imnet_fgsm.png)
 
+## How to run 
+```
+    # Download and generate 5k mnist samples 
+    cd common/ 
+    python generate_5k.py # creates 5k_samples.pkl 
+    
+    # Train NN on mnist 
+    python train_mnist.py # creates weights.pkl 
+    
+    # Method 1 
+    cd ../Method\ 1\ -\ optimizing\ for\ noise/
+    python attack_mnist.py --> generates bulk...pkl file 
+    python visualize_adv_examples.py bulk...pkl # visualize adv examples on a grid
+    
+    # Method 2 
+    cd ../Method\ 2\ -\ Fast\ gradient\ sign\ method/
+    python mnist-fast-gradient.py  # runs on 5k images and creates bulk_mnist_fgsd.pkl
+    python visualize_mnist.py bulk_mnist_fgsd.pkl # visualize on a grid
+    
+```
+
 ## Some observations 
 1. FGSM is faster to compute in comparison to method 1. 
 2. In FGSM, the noise is spread accross the entirety of the image instead of being localized. FGSM hence gives noticeably 'cleaner' images. 
