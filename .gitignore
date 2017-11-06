@@ -2,3 +2,4 @@
 mnist/*
 *.swp
 common/mnist/*
+*.pyc
