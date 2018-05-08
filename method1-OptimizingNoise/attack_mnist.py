@@ -7,7 +7,7 @@ from tqdm import *
 
 
 # Load 5K samples 
-with open("../common/5k_samples.pkl","r") as f: 
+with open("../common/5k_samples.pkl","rb") as f: 
     samples_5k = pickle.load(f) 
 images = samples_5k["images"]
 labels = samples_5k["labels"]
