@@ -84,7 +84,7 @@ print("Accuracy: {}".format(correct/total))
 
 print ("Dumping weights to disk")
 weights_dict = {} 
-import ipdb; ipdb.set_trace()
+# import ipdb; ipdb.set_trace()
 for param in list(net.named_parameters()):
     print ("Serializing Param", param[0])
     weights_dict[param[0]] = param[1] 
