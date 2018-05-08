@@ -27,8 +27,8 @@ for idx, data in enumerate(testloader):
         break
 
 # import ipdb; ipdb.set_trace()
-with open("5k_samples.pkl", "w") as f: 
-    import cPickle 
+with open("5k_samples.pkl", "wb") as f: 
+    import pickle
     data_dict = { "images":images, "labels": labels}
-    cPickle.dump(data_dict, f)
+    pickle.dump(data_dict, f)
 

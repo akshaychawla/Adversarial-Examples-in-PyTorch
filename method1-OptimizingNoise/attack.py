@@ -46,9 +46,9 @@ class Attack:
             weights_dict = pickle.load(f)
         for param in self.net.named_parameters():
             if param[0] in weights_dict.keys():
-                print "Copying: ", param[0]
+                print ("Copying: ", param[0])
                 param[1].data = weights_dict[param[0]].data 
-        print "Weights Loaded!"
+        print ("Weights Loaded!")
 
     def attack(self, x, y_true, y_target, regularization=None):
         """
@@ -81,7 +81,7 @@ class Attack:
         # print "Y_TRUE: {} | Y_PRED: {}".format(_y_true, y_pred)
         if y_true != y_pred:
             incorrect_classify = True
-            print "WARNING: IMAGE WAS NOT CLASSIFIED CORRECTLY"
+            print ("WARNING: IMAGE WAS NOT CLASSIFIED CORRECTLY")
 
         # Optimization Loop 
         for iteration in range(1000):
@@ -108,7 +108,7 @@ class Attack:
                 break 
 
         if iteration == 999:
-            print "Warning: optimization loop ran for 1000 iterations. The result may not be correct"
+            print ("Warning: optimization loop ran for 1000 iterations. The result may not be correct")
 
         return self.net.r.data.numpy(), y_pred, y_pred_adversarial 
 

@@ -41,7 +41,7 @@ def image_loader(image_name):
 vgg16 = torchvision.models.vgg16(pretrained=True)
 vgg16.eval() # disable dropout, batchnorm
 SoftmaxWithXent = nn.CrossEntropyLoss()
-print ".. loaded pre-trained vgg16"
+print (".. loaded pre-trained vgg16")
 
 xs, y_trues, y_preds, noises, y_preds_adversarial = [], [], [], [], []
 
@@ -63,7 +63,7 @@ for imloc in tqdm(image_location_generator("./downloads/")):
     y_true = ImageNet_mapping[ str( int( y.data.numpy() ) ) ]
 
     if y_pred_adversarial == y_true:
-        print "Error: Could not adversarialize image "
+        print ("Error: Could not adversarialize image ")
     else:
         xs.append(x.data.numpy())
         y_preds.append( y_true )
@@ -75,7 +75,7 @@ for imloc in tqdm(image_location_generator("./downloads/")):
         # print y_preds[-1], " | ", y_preds_adversarial[-1]
 
 import ipdb; ipdb.set_trace()
-with open("bulk_imnet_fgsm.pkl", "w") as f: 
+with open("bulk_imnet_fgsm.pkl", "wb") as f: 
     adv_data_dict = {
        'xs' : xs, 
        'y_trues': y_trues, 

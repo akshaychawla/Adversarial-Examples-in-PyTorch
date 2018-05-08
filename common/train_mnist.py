@@ -68,7 +68,7 @@ for epoch in range(100):
 
     print('Epoch: {} | Loss: {}'.format(epoch, running_loss/2000.0))
 
-print "Finished Training"
+print ("Finished Training")
 
 # TEST 
 correct = 0.0 
@@ -82,13 +82,13 @@ for data in testloader:
 
 print("Accuracy: {}".format(correct/total))
 
-print "Dumping weights to disk"
+print ("Dumping weights to disk")
 weights_dict = {} 
 import ipdb; ipdb.set_trace()
 for param in list(net.named_parameters()):
-    print "Serializing Param", param[0]
+    print ("Serializing Param", param[0])
     weights_dict[param[0]] = param[1] 
-with open("weights.pkl","w") as f:
+with open("weights.pkl","wb") as f:
     import pickle 
     pickle.dump(weights_dict, f)
-print "Finished dumping to disk.."
+print ("Finished dumping to disk..")

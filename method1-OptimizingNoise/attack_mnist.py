@@ -30,7 +30,7 @@ for x, y_true in tqdm(zip(images, labels)):
         y_preds_adversarial.append(y_pred_adversarial)
         noises.append(noise.squeeze())
     else: 
-        print "y_pred != y_true, not storing to disk" 
+        print ("y_pred != y_true, not storing to disk" )
 
 with open("bulk_mnist_adversarial_examples.pkl","w") as f: 
     save_dict = {"xs":xs,
@@ -39,7 +39,7 @@ with open("bulk_mnist_adversarial_examples.pkl","w") as f:
                  "y_preds_adversarial":y_preds_adversarial,
                  "noises": noises }
     pickle.dump(save_dict, f) 
-print "..done"
+print ("..done")
 
     
 

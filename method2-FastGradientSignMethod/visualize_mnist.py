@@ -1,7 +1,3 @@
-"""
-This script visualizes the adversarial samples on a grid. 
-How to run: python visualize_adv_examples.py ./location_of_bulk_pickle.pkl 
-"""
 import numpy as np
 import matplotlib.pyplot as plt 
 import pickle 
@@ -17,8 +13,10 @@ y_preds = adv_data_dict["y_preds"]
 noises  = adv_data_dict["noises"]
 y_preds_adversarial = adv_data_dict["y_preds_adversarial"]  
 
+
+# import ipdb; ipdb.set_trace()
 # visualize N random images 
-idxs = np.random.choice(range(500), size=(20,), replace=False)
+idxs = np.random.choice(range(50), size=(20,), replace=False)
 for matidx, idx in enumerate(idxs):
     orig_im = xs[idx].reshape(28,28)
     adv_im  = orig_im + noises[idx].reshape(28,28)
@@ -27,12 +25,14 @@ for matidx, idx in enumerate(idxs):
     plt.imshow(disp_im, "gray")
     plt.xticks([])
     plt.yticks([])
-    plt.title("Orig: {} | New: {}".format(y_trues[idx], y_preds_adversarial[idx]))
 plt.show()
     
 # Noise statistics 
+# import ipdb; ipdb.set_trace()
 noises, xs, y_trues, y_preds = np.array(noises), np.array(xs), np.array(y_trues), np.array(y_preds)
-adv_exs = xs + noises
-print "Adv examples: max, min: ", adv_exs.max(), adv_exs.min()
-print "Noise: Mean, Max, Min: "
-print np.mean(noises), np.max(noises), np.min(noises)
+noises = noises.squeeze(axis=1)
+xs = xs.squeeze(axis=1)
+adv_exs = xs + noises  
+print ("Adv examples: max, min: ", adv_exs.max(), adv_exs.min())
+print ("Noise: Mean, Max, Min: ")
+print (np.mean(noises), np.max(noises), np.min(noises))
