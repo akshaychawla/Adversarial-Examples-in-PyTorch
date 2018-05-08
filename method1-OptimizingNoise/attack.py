@@ -42,7 +42,7 @@ class Attack:
         assert os.path.isfile(weights), "Error: weight file {} is invalid".format(weights)
         # LOAD PRE-TRAINED WEIGHTS 
         weights_dict = {} 
-        with open(weights, "r") as f:
+        with open(weights, "rb") as f:
             weights_dict = pickle.load(f)
         for param in self.net.named_parameters():
             if param[0] in weights_dict.keys():
