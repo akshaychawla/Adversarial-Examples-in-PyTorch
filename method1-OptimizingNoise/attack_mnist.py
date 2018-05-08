@@ -32,7 +32,7 @@ for x, y_true in tqdm(zip(images, labels)):
     else: 
         print ("y_pred != y_true, not storing to disk" )
 
-with open("bulk_mnist_adversarial_examples.pkl","w") as f: 
+with open("bulk_mnist_adversarial_examples.pkl","wb") as f: 
     save_dict = {"xs":xs,
                  "y_trues":y_trues,
                  "y_preds":y_preds,
