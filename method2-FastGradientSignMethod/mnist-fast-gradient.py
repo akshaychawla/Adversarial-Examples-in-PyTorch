@@ -38,17 +38,18 @@ SoftmaxWithXent = nn.CrossEntropyLoss()
 
 # Load pre-trained weights 
 weights_dict = {} 
-with open("../common/weights.pkl", "r") as f:
+with open("../common/weights.pkl", "rb") as f:
     weights_dict = pickle.load(f)
 for param in net.named_parameters():
     if param[0] in weights_dict.keys():
-        print "Copying: ", param[0]
+        print ("Copying: ", param[0])
         param[1].data = weights_dict[param[0]].data 
 print ("Weights Loaded!")
 
 # Load 5K samples 
-with open("../common/5k_samples.pkl","r") as f: 
-    samples_5k = pickle.load(f) 
+with open("../common/5k_samples.pkl","rb") as f: 
+    samples_5k = pickle.load(f)
+    
 xs = samples_5k["images"]
 y_trues = samples_5k["labels"]
 noises = [] 

@@ -4,7 +4,7 @@ import pickle
 import sys, os 
 
 pkl_loc = sys.argv[1]
-with open(pkl_loc, "r") as f: 
+with open(pkl_loc, "rb") as f: 
     adv_data_dict = pickle.load(f) 
 
 xs = adv_data_dict["xs"]
