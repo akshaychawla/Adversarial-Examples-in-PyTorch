@@ -7,7 +7,7 @@ from tqdm import *
 
 
 # Load 5K samples 
-with open("../common/5k_samples.pkl","r") as f: 
+with open("../common/5k_samples.pkl","rb") as f: 
     samples_5k = pickle.load(f) 
 images = samples_5k["images"]
 labels = samples_5k["labels"]
@@ -30,16 +30,16 @@ for x, y_true in tqdm(zip(images, labels)):
         y_preds_adversarial.append(y_pred_adversarial)
         noises.append(noise.squeeze())
     else: 
-        print "y_pred != y_true, not storing to disk" 
+        print ("y_pred != y_true, not storing to disk" )
 
-with open("bulk_mnist_adversarial_examples.pkl","w") as f: 
+with open("bulk_mnist_adversarial_examples.pkl","wb") as f: 
     save_dict = {"xs":xs,
                  "y_trues":y_trues,
                  "y_preds":y_preds,
                  "y_preds_adversarial":y_preds_adversarial,
                  "noises": noises }
     pickle.dump(save_dict, f) 
-print "..done"
+print ("..done")
 
     
 

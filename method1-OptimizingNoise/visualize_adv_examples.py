@@ -8,7 +8,7 @@ import pickle
 import sys, os 
 
 pkl_loc = sys.argv[1]
-with open(pkl_loc, "r") as f: 
+with open(pkl_loc, "rb") as f: 
     adv_data_dict = pickle.load(f) 
 
 xs = adv_data_dict["xs"]
@@ -33,6 +33,6 @@ plt.show()
 # Noise statistics 
 noises, xs, y_trues, y_preds = np.array(noises), np.array(xs), np.array(y_trues), np.array(y_preds)
 adv_exs = xs + noises
-print "Adv examples: max, min: ", adv_exs.max(), adv_exs.min()
-print "Noise: Mean, Max, Min: "
-print np.mean(noises), np.max(noises), np.min(noises)
+print ("Adv examples: max, min: ", adv_exs.max(), adv_exs.min())
+print ("Noise: Mean, Max, Min: ")
+print (np.mean(noises), np.max(noises), np.min(noises))

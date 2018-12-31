@@ -38,17 +38,18 @@ SoftmaxWithXent = nn.CrossEntropyLoss()
 
 # Load pre-trained weights 
 weights_dict = {} 
-with open("../common/weights.pkl", "r") as f:
+with open("../common/weights.pkl", "rb") as f:
     weights_dict = pickle.load(f)
 for param in net.named_parameters():
     if param[0] in weights_dict.keys():
-        print "Copying: ", param[0]
+        print ("Copying: ", param[0])
         param[1].data = weights_dict[param[0]].data 
-print "Weights Loaded!"
+print ("Weights Loaded!")
 
 # Load 5K samples 
-with open("../common/5k_samples.pkl","r") as f: 
-    samples_5k = pickle.load(f) 
+with open("../common/5k_samples.pkl","rb") as f: 
+    samples_5k = pickle.load(f)
+    
 xs = samples_5k["images"]
 y_trues = samples_5k["labels"]
 noises = [] 
@@ -85,7 +86,7 @@ for x, y_true in tqdm(zip(xs, y_trues)):
     
     # print "Y_TRUE: {} | Y_PRED: {}".format(_y_true, y_pred)
     if y_true.data.numpy() != y_pred:
-        print "WARNING: MISCLASSIFICATION ERROR"
+        print ("WARNING: MISCLASSIFICATION ERROR")
         totalMisclassifications += 1
     else:
         y_preds.append(y_pred)
@@ -94,10 +95,10 @@ for x, y_true in tqdm(zip(xs, y_trues)):
         xs_clean.append(x.data.numpy())
         y_trues_clean.append(y_true.data.numpy())
 
-print "Total totalMisclassifications : ", totalMisclassifications
-print "out of : ", len(xs)
+print ("Total totalMisclassifications : ", totalMisclassifications)
+print ("out of : ", len(xs))
 
-with open("bulk_mnist_fgsd.pkl","w") as f: 
+with open("bulk_mnist_fgsd.pkl","wb") as f: 
     adv_data_dict = {
             "xs" : xs_clean, 
             "y_trues" : y_trues_clean,
